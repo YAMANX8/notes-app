@@ -3,7 +3,6 @@ import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import Split from "react-split";
 import { nanoid } from "nanoid";
-import React from "react";
 function App() {
   /**
    * Challenge:
@@ -52,6 +51,11 @@ function App() {
     });
   }
 
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
+  }
+
   function findCurrentNote() {
     return (
       notes.find((note) => {
@@ -70,6 +74,7 @@ function App() {
             //******************************************************************************* */
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
+            deleteNote={deleteNote}
           />
           {currentNoteId && notes.length > 0 && (
             <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
