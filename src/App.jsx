@@ -16,12 +16,18 @@ function App() {
    *    into a real JS array.
    */
 
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(
+    () => JSON.parse(localStorage.getItem("notes")) || []
+  );
   const [currentNoteId, setCurrentNoteId] = useState(
     (notes[0] && notes[0].id) || ""
     //the left or operator means that if we don't have any note then assign an empty string to the current note id
     //so that we can determine whether we have notes or we don't.
   );
+
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
 
   function createNewNote() {
     const newNote = {
