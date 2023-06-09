@@ -39,13 +39,17 @@ function App() {
   }
 
   function updateNote(text) {
-    setNotes((oldNotes) =>
+    setNotes((oldNotes) => {
+      const newArray = [];
       oldNotes.map((oldNote) => {
-        return oldNote.id === currentNoteId
-          ? { ...oldNote, body: text }
-          : oldNote;
-      })
-    );
+        if (oldNote.id === currentNoteId) {
+          newArray.unshift({ ...oldNote, body: text });
+        } else {
+          newArray.push(oldNote);
+        }
+      });
+      return newArray;
+    });
   }
 
   function findCurrentNote() {
